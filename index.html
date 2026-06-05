@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test</title>
+</head>
+<body style="font-family:sans-serif; padding:2rem; text-align:center;">
+<h2>Button test</h2>
+<p id="status">Nothing clicked yet</p>
+<button id="btn" style="padding:16px 32px; font-size:16px; background:#2d6a4f; color:white; border:none; border-radius:8px; cursor:pointer; margin:1rem;">
+  Start interview
+</button>
+<p id="mic-status">Mic: untested</p>
+<script>
+document.getElementById('btn').addEventListener('click', function() {
+  document.getElementById('status').textContent = 'Button works!';
+  document.getElementById('status').style.color = 'green';
+  
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function(stream) {
+      document.getElementById('mic-status').textContent = 'Mic: WORKS';
+      document.getElementById('mic-status').style.color = 'green';
+      stream.getTracks().forEach(t => t.stop());
+    })
+    .catch(function(err) {
+      document.getElementById('mic-status').textContent = 'Mic ERROR: ' + err.message;
+      document.getElementById('mic-status').style.color = 'red';
+    });
+});
+</script>
+</body>
+</html>
